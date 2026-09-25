@@ -1,0 +1,74 @@
+[
+  {
+    "store_id": "STORE-GOV-01",
+    "region": "West",
+    "customer_type": "Government",
+    "sku": "PARLE-G-250G",
+    "quantity_requested": 1000,
+    "order_timestamp": "2026-09-25T08:00:00Z",
+    "current_stock_level": 0
+  },
+  {
+    "store_id": "STORE-NGO-02",
+    "region": "North",
+    "customer_type": "NGO",
+    "sku": "PARLE-G-100G",
+    "quantity_requested": 500,
+    "order_timestamp": "2026-09-25T08:15:00Z",
+    "current_stock_level": 0
+  },
+  {
+    "store_id": "STORE-LOY-03",
+    "region": "South",
+    "customer_type": "Loyal",
+    "sku": "PARLE-G-800G",
+    "quantity_requested": 300,
+    "order_timestamp": "2026-09-25T08:30:00Z",
+    "current_stock_level": 0
+  },
+  {
+    "store_id": "STORE-REG-04",
+    "region": "West",
+    "customer_type": "Regular",
+    "sku": "PARLE-G-250G",
+    "quantity_requested": 200,
+    "order_timestamp": "2026-09-25T09:00:00Z",
+    "current_stock_level": 5
+  },
+  {
+    "store_id": "STORE-REG-05",
+    "region": "East",
+    "customer_type": "Regular",
+    "sku": "PARLE-G-250G",
+    "quantity_requested": 150,
+    "order_timestamp": "2026-09-25T07:45:00Z",
+    "current_stock_level": 25
+  },
+  {
+    "store_id": "STORE-REG-06",
+    "region": "North",
+    "customer_type": "Regular",
+    "sku": "PARLE-G-250G",
+    "quantity_requested": 100,
+    "order_timestamp": "2026-09-25T10:30:00Z",
+    "current_stock_level": 25
+  },
+  {
+    "store_id": "STORE-REG-07",
+    "region": "South",
+    "customer_type": "Regular",
+    "sku": "PARLE-G-100G",
+    "quantity_requested": 50,
+    "order_timestamp": "2026-09-25T09:15:00Z",
+    "current_stock_level": 90
+  },
+  {
+    "store_id": "STORE-UNK-08",
+    "region": "West",
+    "customer_type": "Wholesale",
+    "sku": "PARLE-G-500G",
+    "quantity_requested": 80,
+    "order_timestamp": "2026-09-25T11:00:00Z",
+    "current_stock_level": 10
+  }
+]

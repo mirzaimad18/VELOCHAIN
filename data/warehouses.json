@@ -1,0 +1,27 @@
+[
+  {
+    "warehouse_id": "WH-WEST-01",
+    "region_served": "West",
+    "stock_per_sku": {
+      "PARLE-G-250G": 5000,
+      "PARLE-G-100G": 8000,
+      "PARLE-G-800G": 3000
+    }
+  },
+  {
+    "warehouse_id": "WH-NORTH-01",
+    "region_served": "North",
+    "stock_per_sku": {
+      "PARLE-G-100G": 1000,
+      "PARLE-G-250G": 50
+    }
+  },
+  {
+    "warehouse_id": "WH-SOUTH-01",
+    "region_served": "South",
+    "stock_per_sku": {
+      "PARLE-G-800G": 2000,
+      "PARLE-G-100G": 4000
+    }
+  }
+]
