@@ -7,7 +7,7 @@ An agentic AI system that automates order prioritization and warehouse routing f
 1. **Order Intake Agent (Done)** - Assigns priority scores based on customer type (Government > NGO > Loyal > Regular) and evaluates urgency for Regular orders.
 2. **Spatial Routing Agent (Done)** - Matches orders to their region's warehouse and checks stock availability.
 3. **Rebalancing Agent (Done)** - Handles inter-warehouse stock transfers.
-4. **Guardrail Agent (Planned)** - Human approval for large transfers.
+4. **Guardrail Agent (Done)** - Human approval for large transfers.
 
 ## Tech Stack
 - **Python**
@@ -20,12 +20,23 @@ An agentic AI system that automates order prioritization and warehouse routing f
 
 > **Note:** Currently using local mock JSON data (`data/orders.json`, `data/warehouses.json`) for development. Firestore integration is pending GCP billing verification.
 
+## How to Run the End-to-End Pipeline
+Execute all 4 agents in sequence over the retail order dataset:
+```bash
+python pipeline.py
+```
+
 ## How to Run Tests
 Ensure dependencies are installed and run the test suites with `pytest`:
 
 - **Run all tests:**
   ```bash
   pytest
+  ```
+
+- **Full Pipeline tests:**
+  ```bash
+  pytest tests/test_pipeline.py
   ```
 
 - **Order Intake Agent tests:**
@@ -41,4 +52,9 @@ Ensure dependencies are installed and run the test suites with `pytest`:
 - **Rebalancing Agent tests:**
   ```bash
   pytest tests/test_rebalancing_agent.py
+  ```
+
+- **Guardrail Agent tests:**
+  ```bash
+  pytest tests/test_guardrail_agent.py
   ```
