@@ -6,7 +6,7 @@ An agentic AI system that automates order prioritization and warehouse routing f
 ## Agents Built So Far
 1. **Order Intake Agent (Done)** - Assigns priority scores based on customer type (Government > NGO > Loyal > Regular) and evaluates urgency for Regular orders.
 2. **Spatial Routing Agent (Done)** - Matches orders to their region's warehouse and checks stock availability.
-3. **Rebalancing Agent (Planned)** - Handles inter-warehouse stock transfers.
+3. **Rebalancing Agent (Done)** - Handles inter-warehouse stock transfers.
 4. **Guardrail Agent (Planned)** - Human approval for large transfers.
 
 ## Tech Stack
@@ -36,4 +36,9 @@ Ensure dependencies are installed and run the test suites with `pytest`:
 - **Spatial Routing Agent tests:**
   ```bash
   pytest tests/test_spatial_routing_agent.py
+  ```
+
+- **Rebalancing Agent tests:**
+  ```bash
+  pytest tests/test_rebalancing_agent.py
   ```
