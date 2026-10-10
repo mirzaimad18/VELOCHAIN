@@ -1,0 +1,63 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Test, type-check, and lint caches
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.pytype/
+.ruff_cache/
+.tox/
+.nox/
+
+# Packaging and build artifacts
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Streamlit local secrets
+.streamlit/secrets.toml
+
+# LangGraph local runtime and checkpoint data
+.langgraph/
+.langgraph_api/
+
+# Local database files and transient SQLite files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.sqlite-journal
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+
+# PostgreSQL local dumps and backups
+*.dump
+*.backup
+*.pgdump
+
+# IDE and operating system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
