@@ -70,6 +70,55 @@ The application accepts a store order email in its Streamlit dashboard. The agen
 - **Docker** for containerized deployment
 - **Pandas** for dashboard data handling
 
+## 📧 Sample Demo Emails
+
+Copy and paste one of these messages into the Streamlit dashboard's **Paste Order Email Here** field, then select **Parse & Process Email**. They exercise order intake, warehouse routing, and—where the transfer is over the threshold—the manager approval workflow.
+
+### High Urgency — stock rebalancing and manager approval
+
+```text
+Subject: URGENT - Immediate Parle-G Restock for Store 1
+
+Hello Supply Chain Team,
+
+Store 1 urgently needs 60,000 units of Parle-G. Please dispatch this order
+immediately and let us know when the stock transfer is ready for approval.
+
+Thank you,
+Store Manager
+```
+
+This high-priority order exceeds the 50,000-unit transfer approval threshold. With the sample inventory, it should require rebalancing from a warehouse with available stock and pause for manager approval.
+
+### Medium Urgency — standard weekly replenishment
+
+```text
+Subject: Weekly Parle-G Replenishment for Store 2
+
+Hello Supply Chain Team,
+
+Store 2 requests 15,000 units of Parle-G for our standard weekly
+replenishment. Please process this order through the usual fulfillment flow.
+
+Thank you,
+Store Manager
+```
+
+### Low Urgency — advance bulk request
+
+```text
+Subject: Advance Parle-G Request for Store 3
+
+Hello Supply Chain Team,
+
+Store 3 is placing a low-urgency advance request for 20,000 units of
+Parle-G for next month's sale. This order is for planned future demand and
+does not require immediate dispatch.
+
+Thank you,
+Store Manager
+```
+
 ## Local setup
 
 ### Prerequisites
