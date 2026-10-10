@@ -75,7 +75,7 @@ def _adjust_urgency_from_notes(
         )
 
     model = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash",
+        model="gemini-1.5-flash",
         api_key=api_key,
         temperature=0,
     ).with_structured_output(UrgencyAdjustment)

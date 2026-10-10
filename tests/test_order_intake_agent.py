@@ -1,6 +1,6 @@
 """Tests for structured email parsing and order ranking."""
 
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 from google.genai.errors import APIError
 import pytest
@@ -50,6 +50,11 @@ def test_parse_email_validates_store_id_and_uses_fallback(
         "urgency_level": "High",
         "summary_reason": "Urgent restock requested.",
     }
+    order_intake.ChatGoogleGenerativeAI.assert_called_once_with(
+        model="gemini-1.5-flash",
+        api_key="test-api-key",
+        temperature=0,
+    )
     chat_model.with_structured_output.assert_called_once_with(
         order_intake.ParsedEmailOrder
     )
@@ -82,6 +87,15 @@ def test_parse_email_validates_store_id_and_uses_fallback(
                 "store_id": 1,
                 "quantity": 60000,
                 "urgency_level": "Medium",
+                "summary_reason": "Extracted from email using regex fallback.",
+            },
+        ),
+        (
+            "Store 5 needs 0 units ASAP.",
+            {
+                "store_id": 5,
+                "quantity": 60000,
+                "urgency_level": "High",
                 "summary_reason": "Extracted from email using regex fallback.",
             },
         ),
@@ -158,7 +172,7 @@ def test_parse_email_falls_back_for_network_errors(monkeypatch):
     assert result["urgency_level"] == "High"
 
 
-def test_parse_email_reraises_unrelated_llm_errors(monkeypatch):
+def test_parse_email_falls_back_for_model_errors(monkeypatch):
     monkeypatch.setenv("GEMINI_API_KEY", "test-api-key")
     monkeypatch.setattr(
         order_intake,
@@ -173,8 +187,72 @@ def test_parse_email_reraises_unrelated_llm_errors(monkeypatch):
         order_intake, "ChatGoogleGenerativeAI", MagicMock(return_value=model)
     )
 
-    with pytest.raises(ValueError, match="Unexpected model response"):
-        order_intake.parse_email_to_order_json("Store 1 needs 10,000 units.")
+    result = order_intake.parse_email_to_order_json(
+        "Store 1 needs 10,000 units."
+    )
+
+    assert result == {
+        "store_id": 1,
+        "quantity": 10000,
+        "urgency_level": "Medium",
+        "summary_reason": "Extracted from email using regex fallback.",
+    }
+    assert order_intake.ChatGoogleGenerativeAI.call_count == 2
+
+
+def test_parse_email_retries_with_pro_and_parses_json_string(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "test-api-key")
+    monkeypatch.setattr(
+        order_intake,
+        "fetch_query",
+        MagicMock(
+            return_value=[
+                (1, "Mumbai Central Supermart", "Mumbai"),
+                (2, "Pune Retail Depot", "Pune"),
+            ]
+        ),
+    )
+    flash_model = MagicMock()
+    flash_model.with_structured_output.return_value.invoke.side_effect = APIError(
+        404, {"message": "Model not found"}
+    )
+    pro_model = MagicMock()
+    pro_model.with_structured_output.return_value.invoke.return_value = (
+        '{"store_id": 2, "quantity": 2500, "urgency_level": "High", '
+        '"summary_reason": "Urgent restock requested."}'
+    )
+    model_factory = MagicMock(side_effect=[flash_model, pro_model])
+    monkeypatch.setattr(order_intake, "ChatGoogleGenerativeAI", model_factory)
+
+    result = order_intake.parse_email_to_order_json(
+        "Store 2 urgently needs 2,500 units."
+    )
+
+    assert result == {
+        "store_id": 2,
+        "quantity": 2500,
+        "urgency_level": "High",
+        "summary_reason": "Urgent restock requested.",
+    }
+    assert model_factory.call_args_list == [
+        call(model="gemini-1.5-flash", api_key="test-api-key", temperature=0),
+        call(model="gemini-1.5-pro", api_key="test-api-key", temperature=0),
+    ]
+
+
+def test_parse_email_empty_input_returns_default_order(monkeypatch):
+    monkeypatch.setattr(
+        order_intake,
+        "fetch_query",
+        MagicMock(side_effect=AssertionError("Database should not be queried")),
+    )
+
+    assert order_intake.parse_email_to_order_json("") == {
+        "store_id": 1,
+        "quantity": 60000,
+        "urgency_level": "Medium",
+        "summary_reason": "Extracted from email using regex fallback.",
+    }
 
 
 def test_rank_orders_sorts_by_score_and_looks_up_store_tier(monkeypatch):
